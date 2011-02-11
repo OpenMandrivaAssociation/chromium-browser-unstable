@@ -4,7 +4,7 @@
 
 Name: chromium-browser-unstable
 Version: 10.0.648.45
-Release: %mkrel 1
+Release: %mkrel 2
 Summary: A fast webkit-based web browser
 Group: Networking/WWW
 License: BSD, LGPL
@@ -15,6 +15,7 @@ Patch0: chromium-10.0.648.45-skip-builder-tests.patch
 Patch1: chromium-10.0.648.45-webkit-svn-revision.patch
 Provides: %{crname}
 Conflicts: chromium-browser-stable
+Obsoletes: chromium-browser < 1:9.0.597.9
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot
 BuildRequires: bison, flex, gtk2-devel, atk-devel, libexpat-devel, gperf
 BuildRequires: libnspr-devel, libnss-devel, libalsa-devel
