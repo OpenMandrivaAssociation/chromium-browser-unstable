@@ -8,6 +8,7 @@ Release: %mkrel 2
 Summary: A fast webkit-based web browser
 Group: Networking/WWW
 License: BSD, LGPL
+URL: http://www.chromium.org/getting-involved/dev-channel
 Source0: chromium-%{version}.tar.xz
 Source1: chromium-wrapper
 Source2: chromium-browser.desktop
@@ -15,7 +16,7 @@ Patch0: chromium-10.0.648.45-skip-builder-tests.patch
 Patch1: chromium-10.0.648.45-webkit-svn-revision.patch
 Provides: %{crname}
 Conflicts: chromium-browser-stable
-Obsoletes: chromium-browser < 1:9.0.597.9
+Conflicts: chromium-browser-beta
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot
 BuildRequires: bison, flex, gtk2-devel, atk-devel, libexpat-devel, gperf
 BuildRequires: libnspr-devel, libnss-devel, libalsa-devel
@@ -35,7 +36,7 @@ latest features but can be unstable at times, and new features may
 require manual configuration to be enabled. If you prefer a stable and
 tested browser, install the chromium-browser-stable package instead.
 
-Note: If you are reverting from unstable to stable channel, you may
+Note: If you are reverting from unstable to stable or beta channel, you may
 experience tab crashes on startup. This crash only affects tabs restored
 during the first launch due to a change in how tab state is stored.
 See http://bugs.chromium.org/34688. It's always a good idea to back up
