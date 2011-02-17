@@ -1,15 +1,17 @@
 %define channel dev
 %define crname chromium-browser
 %define _crdir %{_libdir}/%{crname}
+%define basever 10.0.648.45
+%define patchver() (xz -dc %{_sourcedir}/patch-%1-%2.diff.xz|patch -p1)
 
 Name: chromium-browser-unstable
-Version: 10.0.648.45
-Release: %mkrel 2
+Version: 10.0.648.82
+Release: %mkrel 1
 Summary: A fast webkit-based web browser
 Group: Networking/WWW
 License: BSD, LGPL
 URL: http://www.chromium.org/getting-involved/dev-channel
-Source0: chromium-%{version}.tar.xz
+Source0: chromium-%{basever}.tar.xz
 Source1: chromium-wrapper
 Source2: chromium-browser.desktop
 Patch0: chromium-10.0.648.45-skip-builder-tests.patch
@@ -43,7 +45,9 @@ See http://bugs.chromium.org/34688. It's always a good idea to back up
 your profile before changing channels.
 
 %prep
-%setup -q -n chromium-%{version}
+%setup -q -n chromium-%{basever}
+%patchver 10.0.648.45 10.0.648.82
+
 %patch0 -p1 -b .skip-builder-tests
 %patch1 -p1 -b .webkit-svn-revision
 echo "%{channel}" > build/LASTCHANGE.in
