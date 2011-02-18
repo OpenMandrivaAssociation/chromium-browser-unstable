@@ -1,11 +1,11 @@
 %define channel dev
 %define crname chromium-browser
 %define _crdir %{_libdir}/%{crname}
-%define basever 10.0.648.45
+%define basever 11.0.672.2
 %define patchver() (xz -dc %{_sourcedir}/patch-%1-%2.diff.xz|patch -p1)
 
 Name: chromium-browser-unstable
-Version: 10.0.648.82
+Version: 11.0.672.2
 Release: %mkrel 1
 Summary: A fast webkit-based web browser
 Group: Networking/WWW
@@ -14,8 +14,7 @@ URL: http://www.chromium.org/getting-involved/dev-channel
 Source0: chromium-%{basever}.tar.xz
 Source1: chromium-wrapper
 Source2: chromium-browser.desktop
-Patch0: chromium-10.0.648.45-skip-builder-tests.patch
-Patch1: chromium-10.0.648.45-webkit-svn-revision.patch
+Patch0: chromium-11.0.672.2-skip-builder-tests.patch
 Provides: %{crname}
 Conflicts: chromium-browser-stable
 Conflicts: chromium-browser-beta
@@ -46,10 +45,9 @@ your profile before changing channels.
 
 %prep
 %setup -q -n chromium-%{basever}
-%patchver 10.0.648.45 10.0.648.82
+#%patchver 10.0.648.45 10.0.648.82
 
 %patch0 -p1 -b .skip-builder-tests
-%patch1 -p1 -b .webkit-svn-revision
 echo "%{channel}" > build/LASTCHANGE.in
 
 # Hard code extra version
