@@ -1,11 +1,11 @@
 %define channel dev
 %define crname chromium-browser
 %define _crdir %{_libdir}/%{crname}
-%define basever 11.0.672.2
+%define basever 11.0.686.0
 %define patchver() (xz -dc %{_sourcedir}/patch-%1-%2.diff.xz|patch -p1)
 
 Name: chromium-browser-unstable
-Version: 11.0.672.2
+Version: 11.0.686.0
 Release: %mkrel 1
 Summary: A fast webkit-based web browser
 Group: Networking/WWW
@@ -25,7 +25,7 @@ BuildRequires: libglib2-devel, libbzip2-devel, libz-devel, libpng-devel
 BuildRequires: libjpeg-devel, libmesagl-devel, libmesaglu-devel
 BuildRequires: libxscrnsaver-devel, libdbus-glib-devel, libcups-devel
 BuildRequires: libgnome-keyring-devel libvpx-devel libxtst-devel
-BuildRequires: libxslt-devel libxml2-devel libxt-devel
+BuildRequires: libxslt-devel libxml2-devel libxt-devel libpam-devel
 ExclusiveArch: i586 x86_64 armel
 
 %description
