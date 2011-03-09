@@ -5,7 +5,7 @@
 %define patchver() (xz -dc %{_sourcedir}/patch-%1-%2.diff.xz|patch -p1)
 
 Name: chromium-browser-unstable
-Version: 11.0.686.1
+Version: 11.0.686.3
 Release: %mkrel 1
 Summary: A fast webkit-based web browser
 Group: Networking/WWW
@@ -46,6 +46,8 @@ your profile before changing channels.
 %prep
 %setup -q -n chromium-%{basever}
 %patchver 11.0.686.0 11.0.686.1
+
+%patchver 11.0.686.1 11.0.686.3
 
 %patch0 -p1 -b .skip-builder-tests
 echo "%{channel}" > build/LASTCHANGE.in
