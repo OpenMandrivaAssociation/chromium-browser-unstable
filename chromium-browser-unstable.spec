@@ -6,7 +6,7 @@
 
 Name: chromium-browser-unstable
 Version: 11.0.686.3
-Release: %mkrel 1
+Release: %mkrel 2
 Summary: A fast webkit-based web browser
 Group: Networking/WWW
 License: BSD, LGPL
@@ -14,6 +14,8 @@ URL: http://www.chromium.org/getting-involved/dev-channel
 Source0: chromium-%{basever}.tar.xz
 Source1: chromium-wrapper
 Source2: chromium-browser.desktop
+Source1000: patch-11.0.686.0-11.0.686.1.diff.xz
+Source1001: patch-11.0.686.1-11.0.686.3.diff.xz
 Patch0: chromium-11.0.672.2-skip-builder-tests.patch
 Provides: %{crname}
 Conflicts: chromium-browser-stable
