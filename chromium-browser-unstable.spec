@@ -2,7 +2,7 @@
 %define crname chromium-browser
 %define _crdir %{_libdir}/%{crname}
 %define basever 11.0.696.1
-%define patchver() (xz -dc %{_sourcedir}/patch-%1-%2.diff.xz|patch -p1)
+%define patchver() ([ -f %{_sourcedir}/patch-%1-%2.diff.xz ] || exit 1; xz -dc %{_sourcedir}/patch-%1-%2.diff.xz|patch -p1);
 
 Name: chromium-browser-unstable
 Version: 11.0.696.3
