@@ -5,8 +5,8 @@
 %define patchver() ([ -f %{_sourcedir}/patch-%1-%2.diff.xz ] || exit 1; xz -dc %{_sourcedir}/patch-%1-%2.diff.xz|patch -p1);
 
 Name: chromium-browser-unstable
-Version: 11.0.696.3
-Release: %mkrel 2
+Version: 11.0.696.12
+Release: %mkrel 1
 Summary: A fast webkit-based web browser
 Group: Networking/WWW
 License: BSD, LGPL
@@ -15,6 +15,8 @@ Source0: chromium-%{basever}.tar.xz
 Source1: chromium-wrapper
 Source2: chromium-browser.desktop
 Source1000: patch-11.0.696.1-11.0.696.3.diff.xz
+Source1001: patch-11.0.696.3-11.0.696.12.diff.xz
+Source1002: chromium-11.0.696.12-theme-chromium.tar.xz
 Patch0: chromium-11.0.672.2-skip-builder-tests.patch
 Provides: %{crname}
 Conflicts: chromium-browser-stable
@@ -47,9 +49,13 @@ your profile before changing channels.
 %prep
 %setup -q -n chromium-%{basever}
 %patchver 11.0.696.1 11.0.696.3
+%patchver 11.0.696.3 11.0.696.12
 
 %patch0 -p1 -b .skip-builder-tests
 echo "%{channel}" > build/LASTCHANGE.in
+
+# Update theme
+tar xJf %{_sourcedir}/chromium-11.0.696.12-theme-chromium.tar.xz
 
 # Hard code extra version
 FILE=chrome/browser/platform_util_common_linux.cc
