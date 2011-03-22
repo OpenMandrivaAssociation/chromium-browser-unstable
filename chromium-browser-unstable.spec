@@ -87,8 +87,8 @@ build/gyp_chromium --depth=. \
 	-D use_system_libpng=1 \
 	-D use_system_libjpeg=1 \
 	-D use_system_speex=1 \
-	-D use_system_vpx=1 \
-	-D use_system_icu=1 \
+	-D use_system_vpx=0 \
+	-D use_system_icu=0 \
 %ifarch i586
 	-D disable_sse2=1 \
 	-D release_extra_cflags="-march=i586"
