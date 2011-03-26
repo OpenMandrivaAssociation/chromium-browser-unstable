@@ -1,11 +1,11 @@
 %define channel dev
 %define crname chromium-browser
 %define _crdir %{_libdir}/%{crname}
-%define basever 11.0.696.1
+%define basever 12.0.712.0
 %define patchver() ([ -f %{_sourcedir}/patch-%1-%2.diff.xz ] || exit 1; xz -dc %{_sourcedir}/patch-%1-%2.diff.xz|patch -p1);
 
 Name: chromium-browser-unstable
-Version: 11.0.696.16
+Version: 12.0.712.0
 Release: %mkrel 1
 Summary: A fast webkit-based web browser
 Group: Networking/WWW
@@ -14,13 +14,7 @@ URL: http://www.chromium.org/getting-involved/dev-channel
 Source0: chromium-%{basever}.tar.xz
 Source1: chromium-wrapper
 Source2: chromium-browser.desktop
-Source1000: patch-11.0.696.1-11.0.696.3.diff.xz
-Source1001: patch-11.0.696.3-11.0.696.12.diff.xz
-Source1002: chromium-11.0.696.12-theme-chromium.tar.xz
-Source1003: patch-11.0.696.12-11.0.696.14.diff.xz
-Source1004: input_speech_recording.png
-Source1005: patch-11.0.696.14-11.0.696.16.diff.xz
-Patch0: chromium-11.0.672.2-skip-builder-tests.patch
+Patch0: chromium-12.0.712.0-skip-builder-tests.patch
 Provides: %{crname}
 Conflicts: chromium-browser-stable
 Conflicts: chromium-browser-beta
@@ -32,7 +26,7 @@ BuildRequires: libjpeg-devel, libmesagl-devel, libmesaglu-devel
 BuildRequires: libxscrnsaver-devel, libdbus-glib-devel, libcups-devel
 BuildRequires: libgnome-keyring-devel libvpx-devel libxtst-devel
 BuildRequires: libxslt-devel libxml2-devel libxt-devel libpam-devel
-BuildRequires: libevent-devel icu-devel speex-devel
+BuildRequires: libevent-devel speex-devel
 ExclusiveArch: i586 x86_64 armel
 
 %description
@@ -52,19 +46,9 @@ your profile before changing channels.
 
 %prep
 %setup -q -n chromium-%{basever}
-%patchver 11.0.696.1 11.0.696.3
-%patchver 11.0.696.3 11.0.696.12
-%patchver 11.0.696.12 11.0.696.14
-%patchver 11.0.696.14 11.0.696.16
 
 %patch0 -p1 -b .skip-builder-tests
 echo "%{channel}" > build/LASTCHANGE.in
-
-# Update theme
-tar xJf %{_sourcedir}/chromium-11.0.696.12-theme-chromium.tar.xz
-
-# Update other binaries
-cp %{_sourcedir}/input_speech_recording.png webkit/glue/resources/
 
 # Hard code extra version
 FILE=chrome/browser/platform_util_common_linux.cc
@@ -86,6 +70,7 @@ build/gyp_chromium --depth=. \
 	-D use_system_bzip2=1 \
 	-D use_system_libpng=1 \
 	-D use_system_libjpeg=1 \
+	-D use_system_libevent=1 \
 	-D use_system_speex=1 \
 	-D use_system_vpx=0 \
 	-D use_system_icu=0 \
