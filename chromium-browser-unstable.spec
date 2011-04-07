@@ -15,6 +15,7 @@ Source0: chromium-%{basever}.tar.xz
 Source1: chromium-wrapper
 Source2: chromium-browser.desktop
 Patch0: chromium-12.0.725.0-skip-builder-tests.patch
+Patch1: chromium-gcc46.patch
 Source1000: patch-12.0.712.0-12.0.725.0.diff.xz
 Source1001: binary-12.0.712.0-12.0.725.0.tar.xz
 Provides: %{crname}
@@ -52,6 +53,7 @@ your profile before changing channels.
 tar xvf %{_sourcedir}/binary-12.0.712.0-12.0.725.0.tar.xz
 
 %patch0 -p1 -b .skip-builder-tests
+%patch1 -p1 -b .gcc46
 echo "%{channel}" > build/LASTCHANGE.in
 
 # Hard code extra version
