@@ -5,7 +5,7 @@
 %define patchver() ([ -f %{_sourcedir}/patch-%1-%2.diff.xz ] || exit 1; xz -dc %{_sourcedir}/patch-%1-%2.diff.xz|patch -p1);
 
 Name: chromium-browser-unstable
-Version: 12.0.742.5
+Version: 12.0.742.9
 Release: %mkrel 1
 Summary: A fast webkit-based web browser
 Group: Networking/WWW
@@ -16,7 +16,7 @@ Source1: chromium-wrapper
 Source2: chromium-browser.desktop
 Patch0: chromium-12.0.742.0-skip-builder-tests.patch
 Patch1: chromium-gcc46.patch
-Patch2: chromium-12.0.742.0-exclude-chromeos-options.patch
+Patch2: chromium-12.0.742.9-exclude-chromeos-options.patch
 Source1000: patch-12.0.712.0-12.0.725.0.diff.xz
 Source1001: binary-12.0.712.0-12.0.725.0.tar.xz
 Source1002: patch-12.0.725.0-12.0.733.0.diff.xz
@@ -24,6 +24,8 @@ Source1003: binary-12.0.725.0-12.0.733.0.tar.xz
 Source1004: patch-12.0.733.0-12.0.742.0.diff.xz
 Source1005: binary-12.0.733.0-12.0.742.0.tar.xz
 Source1006: patch-12.0.742.0-12.0.742.5.diff.xz
+Source1007: patch-12.0.742.5-12.0.742.9.diff.xz
+Source1008: binary-12.0.742.5-12.0.742.9.tar.xz
 Provides: %{crname}
 Conflicts: chromium-browser-stable
 Conflicts: chromium-browser-beta
@@ -62,6 +64,8 @@ tar xvf %{_sourcedir}/binary-12.0.725.0-12.0.733.0.tar.xz
 %patchver 12.0.733.0 12.0.742.0
 tar xvf %{_sourcedir}/binary-12.0.733.0-12.0.742.0.tar.xz
 %patchver 12.0.742.0 12.0.742.5
+%patchver 12.0.742.5 12.0.742.9
+tar xvf %{_sourcedir}/binary-12.0.742.5-12.0.742.9.tar.xz
 
 %patch0 -p1 -b .skip-builder-tests
 %patch1 -p1 -b .gcc46
