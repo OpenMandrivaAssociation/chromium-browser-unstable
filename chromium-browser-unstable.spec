@@ -5,7 +5,7 @@
 %define patchver() ([ -f %{_sourcedir}/patch-%1-%2.diff.xz ] || exit 1; xz -dc %{_sourcedir}/patch-%1-%2.diff.xz|patch -p1);
 
 Name: chromium-browser-unstable
-Version: 12.0.742.12
+Version: 12.0.742.16
 Release: %mkrel 1
 Summary: A fast webkit-based web browser
 Group: Networking/WWW
@@ -28,6 +28,8 @@ Source1007: patch-12.0.742.5-12.0.742.9.diff.xz
 Source1008: binary-12.0.742.5-12.0.742.9.tar.xz
 Source1009: patch-12.0.742.9-12.0.742.12.diff.xz
 Source1010: binary-12.0.742.9-12.0.742.12.tar.xz
+Source1011: patch-12.0.742.12-12.0.742.16.diff.xz
+Source1012: binary-12.0.742.12-12.0.742.16.tar.xz
 Provides: %{crname}
 Conflicts: chromium-browser-stable
 Conflicts: chromium-browser-beta
@@ -70,6 +72,8 @@ tar xvf %{_sourcedir}/binary-12.0.733.0-12.0.742.0.tar.xz
 tar xvf %{_sourcedir}/binary-12.0.742.5-12.0.742.9.tar.xz
 %patchver 12.0.742.9 12.0.742.12
 tar xvf %{_sourcedir}/binary-12.0.742.9-12.0.742.12.tar.xz
+%patchver 12.0.742.12 12.0.742.16
+tar xvf %{_sourcedir}/binary-12.0.742.12-12.0.742.16.tar.xz
 
 %patch0 -p1 -b .skip-builder-tests
 %patch1 -p1 -b .gcc46
