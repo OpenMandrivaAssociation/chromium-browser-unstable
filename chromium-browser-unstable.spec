@@ -1,11 +1,11 @@
 %define channel dev
 %define crname chromium-browser
 %define _crdir %{_libdir}/%{crname}
-%define basever 12.0.712.0
+%define basever 13.0.761.0
 %define patchver() ([ -f %{_sourcedir}/patch-%1-%2.diff.xz ] || exit 1; xz -dc %{_sourcedir}/patch-%1-%2.diff.xz|patch -p1);
 
 Name: chromium-browser-unstable
-Version: 12.0.742.21
+Version: 13.0.761.0
 Release: %mkrel 1
 Summary: A fast webkit-based web browser
 Group: Networking/WWW
@@ -14,24 +14,9 @@ URL: http://www.chromium.org/getting-involved/dev-channel
 Source0: chromium-%{basever}.tar.xz
 Source1: chromium-wrapper
 Source2: chromium-browser.desktop
-Patch0: chromium-12.0.742.0-skip-builder-tests.patch
+Patch0: chromium-13.0.761.0-skip-builder-tests.patch
 Patch1: chromium-gcc46.patch
 Patch2: chromium-12.0.742.9-exclude-chromeos-options.patch
-Source1000: patch-12.0.712.0-12.0.725.0.diff.xz
-Source1001: binary-12.0.712.0-12.0.725.0.tar.xz
-Source1002: patch-12.0.725.0-12.0.733.0.diff.xz
-Source1003: binary-12.0.725.0-12.0.733.0.tar.xz
-Source1004: patch-12.0.733.0-12.0.742.0.diff.xz
-Source1005: binary-12.0.733.0-12.0.742.0.tar.xz
-Source1006: patch-12.0.742.0-12.0.742.5.diff.xz
-Source1007: patch-12.0.742.5-12.0.742.9.diff.xz
-Source1008: binary-12.0.742.5-12.0.742.9.tar.xz
-Source1009: patch-12.0.742.9-12.0.742.12.diff.xz
-Source1010: binary-12.0.742.9-12.0.742.12.tar.xz
-Source1011: patch-12.0.742.12-12.0.742.16.diff.xz
-Source1012: binary-12.0.742.12-12.0.742.16.tar.xz
-Source1013: patch-12.0.742.16-12.0.742.21.diff.xz
-Source1014: binary-12.0.742.16-12.0.742.21.tar.xz
 Provides: %{crname}
 Conflicts: chromium-browser-stable
 Conflicts: chromium-browser-beta
@@ -43,7 +28,7 @@ BuildRequires: libjpeg-devel, libmesagl-devel, libmesaglu-devel
 BuildRequires: libxscrnsaver-devel, libdbus-glib-devel, libcups-devel
 BuildRequires: libgnome-keyring-devel libvpx-devel libxtst-devel
 BuildRequires: libxslt-devel libxml2-devel libxt-devel libpam-devel
-BuildRequires: libevent-devel libflac-devel
+BuildRequires: libevent-devel libflac-devel libgnutls-devel
 ExclusiveArch: i586 x86_64 armel
 
 %description
@@ -63,21 +48,6 @@ your profile before changing channels.
 
 %prep
 %setup -q -n chromium-%{basever}
-%patchver 12.0.712.0 12.0.725.0
-tar xvf %{_sourcedir}/binary-12.0.712.0-12.0.725.0.tar.xz
-%patchver 12.0.725.0 12.0.733.0
-tar xvf %{_sourcedir}/binary-12.0.725.0-12.0.733.0.tar.xz
-%patchver 12.0.733.0 12.0.742.0
-tar xvf %{_sourcedir}/binary-12.0.733.0-12.0.742.0.tar.xz
-%patchver 12.0.742.0 12.0.742.5
-%patchver 12.0.742.5 12.0.742.9
-tar xvf %{_sourcedir}/binary-12.0.742.5-12.0.742.9.tar.xz
-%patchver 12.0.742.9 12.0.742.12
-tar xvf %{_sourcedir}/binary-12.0.742.9-12.0.742.12.tar.xz
-%patchver 12.0.742.12 12.0.742.16
-tar xvf %{_sourcedir}/binary-12.0.742.12-12.0.742.16.tar.xz
-%patchver 12.0.742.16 12.0.742.21
-tar xvf %{_sourcedir}/binary-12.0.742.16-12.0.742.21.tar.xz
 
 %patch0 -p1 -b .skip-builder-tests
 %patch1 -p1 -b .gcc46
