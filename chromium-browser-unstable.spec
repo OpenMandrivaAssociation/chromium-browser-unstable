@@ -5,7 +5,7 @@
 %define patchver() ([ -f %{_sourcedir}/patch-%1-%2.diff.xz ] || exit 1; xz -dc %{_sourcedir}/patch-%1-%2.diff.xz|patch -p1);
 
 Name: chromium-browser-unstable
-Version: 13.0.761.0
+Version: 13.0.767.1
 Release: %mkrel 1
 Summary: A fast webkit-based web browser
 Group: Networking/WWW
@@ -14,9 +14,11 @@ URL: http://www.chromium.org/getting-involved/dev-channel
 Source0: chromium-%{basever}.tar.xz
 Source1: chromium-wrapper
 Source2: chromium-browser.desktop
-Patch0: chromium-13.0.761.0-skip-builder-tests.patch
-Patch1: chromium-gcc46.patch
-Patch2: chromium-12.0.742.9-exclude-chromeos-options.patch
+Source1000: patch-13.0.761.0-13.0.767.1.diff.xz
+Source1001: binary-13.0.761.0-13.0.767.1.tar.xz
+Patch0: chromium-13.0.767.1-skip-builder-tests.patch
+Patch1: chromium-13.0.767.1-gcc46.patch
+Patch2: chromium-13.0.767.1-exclude-chromeos-options.patch
 Provides: %{crname}
 Conflicts: chromium-browser-stable
 Conflicts: chromium-browser-beta
@@ -48,6 +50,8 @@ your profile before changing channels.
 
 %prep
 %setup -q -n chromium-%{basever}
+%patchver 13.0.761.0 13.0.767.1
+tar xvf %{_sourcedir}/binary-13.0.761.0-13.0.767.1.tar.xz
 
 %patch0 -p1 -b .skip-builder-tests
 %patch1 -p1 -b .gcc46
@@ -62,6 +66,9 @@ FILE=chrome/browser/platform_util_common_linux.cc
 sed -i.orig -e 's/getenv("CHROME_VERSION_EXTRA")/"%{product_vendor} %{product_version}"/' $FILE
 cmp $FILE $FILE.orig && exit 1
 
+# Remove old files
+# 13.0.767.1
+rm third_party/libsrtp/src/doc/libsrtp.pdf
 
 %build
 export GYP_GENERATORS=make
