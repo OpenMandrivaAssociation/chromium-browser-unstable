@@ -5,7 +5,7 @@
 %define patchver() ([ -f %{_sourcedir}/patch-%1-%2.diff.xz ] || exit 1; xz -dc %{_sourcedir}/patch-%1-%2.diff.xz|patch -p1);
 
 Name: chromium-browser-unstable
-Version: 13.0.772.0
+Version: 13.0.782.1
 Release: %mkrel 1
 Summary: A fast webkit-based web browser
 Group: Networking/WWW
@@ -18,9 +18,11 @@ Source1000: patch-13.0.761.0-13.0.767.1.diff.xz
 Source1001: binary-13.0.761.0-13.0.767.1.tar.xz
 Source1002: patch-13.0.767.1-13.0.772.0.diff.xz
 Source1003: binary-13.0.767.1-13.0.772.0.tar.xz
-Patch0: chromium-13.0.767.1-skip-builder-tests.patch
+Source1004: patch-13.0.772.0-13.0.782.1.diff.xz
+Source1005: binary-13.0.772.0-13.0.782.1.tar.xz
+Patch0: chromium-13.0.782.1-skip-builder-tests.patch
 Patch1: chromium-13.0.767.1-gcc46.patch
-Patch2: chromium-13.0.772.0-exclude-chromeos-options.patch
+Patch2: chromium-13.0.782.1-exclude-chromeos-options.patch
 Provides: %{crname}
 Conflicts: chromium-browser-stable
 Conflicts: chromium-browser-beta
@@ -32,7 +34,8 @@ BuildRequires: libjpeg-devel, libmesagl-devel, libmesaglu-devel
 BuildRequires: libxscrnsaver-devel, libdbus-glib-devel, libcups-devel
 BuildRequires: libgnome-keyring-devel libvpx-devel libxtst-devel
 BuildRequires: libxslt-devel libxml2-devel libxt-devel libpam-devel
-BuildRequires: libevent-devel libflac-devel libgnutls-devel
+BuildRequires: libevent-devel libflac-devel
+#libgnutls-devel
 ExclusiveArch: i586 x86_64 armel
 
 %description
@@ -56,6 +59,8 @@ your profile before changing channels.
 tar xvf %{_sourcedir}/binary-13.0.761.0-13.0.767.1.tar.xz
 %patchver 13.0.767.1 13.0.772.0
 tar xvf %{_sourcedir}/binary-13.0.767.1-13.0.772.0.tar.xz
+%patchver 13.0.772.0 13.0.782.1
+tar xvf %{_sourcedir}/binary-13.0.772.0-13.0.782.1.tar.xz
 
 %patch0 -p1 -b .skip-builder-tests
 %patch1 -p1 -b .gcc46
@@ -73,6 +78,25 @@ cmp $FILE $FILE.orig && exit 1
 # Remove old files
 # 13.0.767.1
 rm third_party/libsrtp/src/doc/libsrtp.pdf
+# 13.0.782.1
+rm chrome/app/theme/statusbar_network_bars0b.png
+rm chrome/app/theme/statusbar_network_bars1b.png
+rm chrome/app/theme/statusbar_network_bars1r.png
+rm chrome/app/theme/statusbar_network_bars2b.png
+rm chrome/app/theme/statusbar_network_bars2r.png
+rm chrome/app/theme/statusbar_network_bars3b.png
+rm chrome/app/theme/statusbar_network_bars3r.png
+rm chrome/app/theme/statusbar_network_bars4b.png
+rm chrome/app/theme/statusbar_network_bars4r.png
+rm chrome/browser/resources/shared/images/mediaplayer_full_screen.png
+rm chrome/browser/resources/shared/images/mediaplayer_full_screen_exit.png
+rm chrome/browser/resources/shared/images/mediaplayer_next.png
+rm chrome/browser/resources/shared/images/mediaplayer_pause.png
+rm chrome/browser/resources/shared/images/mediaplayer_play.png
+rm chrome/browser/resources/shared/images/mediaplayer_playlist.png
+rm chrome/browser/resources/shared/images/mediaplayer_prev.png
+rm chrome/browser/resources/shared/images/mediaplayer_vol_high.png
+rm chrome/browser/resources/shared/images/mediaplayer_vol_mute.png
 
 %build
 export GYP_GENERATORS=make
