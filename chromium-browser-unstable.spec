@@ -34,8 +34,7 @@ BuildRequires: libjpeg-devel, libmesagl-devel, libmesaglu-devel
 BuildRequires: libxscrnsaver-devel, libdbus-glib-devel, libcups-devel
 BuildRequires: libgnome-keyring-devel libvpx-devel libxtst-devel
 BuildRequires: libxslt-devel libxml2-devel libxt-devel libpam-devel
-BuildRequires: libevent-devel libflac-devel
-#libgnutls-devel
+BuildRequires: libevent-devel libflac-devel libgnutls-devel
 ExclusiveArch: i586 x86_64 armel
 
 %description
