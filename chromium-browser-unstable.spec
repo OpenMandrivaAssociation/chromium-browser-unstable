@@ -5,7 +5,7 @@
 %define patchver() ([ -f %{_sourcedir}/patch-%1-%2.diff.xz ] || exit 1; xz -dc %{_sourcedir}/patch-%1-%2.diff.xz|patch -p1);
 
 Name: chromium-browser-unstable
-Version: 13.0.782.1
+Version: 13.0.782.11
 Release: %mkrel 1
 Summary: A fast webkit-based web browser
 Group: Networking/WWW
@@ -20,6 +20,7 @@ Source1002: patch-13.0.767.1-13.0.772.0.diff.xz
 Source1003: binary-13.0.767.1-13.0.772.0.tar.xz
 Source1004: patch-13.0.772.0-13.0.782.1.diff.xz
 Source1005: binary-13.0.772.0-13.0.782.1.tar.xz
+Source1006: patch-13.0.782.1-13.0.782.11.diff.xz
 Patch0: chromium-13.0.782.1-skip-builder-tests.patch
 Patch1: chromium-13.0.767.1-gcc46.patch
 Patch2: chromium-13.0.782.1-exclude-chromeos-options.patch
@@ -34,7 +35,7 @@ BuildRequires: libjpeg-devel, libmesagl-devel, libmesaglu-devel
 BuildRequires: libxscrnsaver-devel, libdbus-glib-devel, libcups-devel
 BuildRequires: libgnome-keyring-devel libvpx-devel libxtst-devel
 BuildRequires: libxslt-devel libxml2-devel libxt-devel libpam-devel
-BuildRequires: libevent-devel libflac-devel libgnutls-devel
+BuildRequires: libevent-devel libflac-devel
 ExclusiveArch: i586 x86_64 armel
 
 %description
@@ -60,6 +61,7 @@ tar xvf %{_sourcedir}/binary-13.0.761.0-13.0.767.1.tar.xz
 tar xvf %{_sourcedir}/binary-13.0.767.1-13.0.772.0.tar.xz
 %patchver 13.0.772.0 13.0.782.1
 tar xvf %{_sourcedir}/binary-13.0.772.0-13.0.782.1.tar.xz
+%patchver 13.0.782.1 13.0.782.11
 
 %patch0 -p1 -b .skip-builder-tests
 %patch1 -p1 -b .gcc46
