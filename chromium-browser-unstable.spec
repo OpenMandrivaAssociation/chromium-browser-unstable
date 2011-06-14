@@ -5,7 +5,7 @@
 %define patchver() ([ -f %{_sourcedir}/patch-%1-%2.diff.xz ] || exit 1; xz -dc %{_sourcedir}/patch-%1-%2.diff.xz|patch -p1);
 
 Name: chromium-browser-unstable
-Version: 13.0.782.15
+Version: 13.0.782.20
 Release: %mkrel 1
 Summary: A fast webkit-based web browser
 Group: Networking/WWW
@@ -23,6 +23,7 @@ Source1005: binary-13.0.772.0-13.0.782.1.tar.xz
 Source1006: patch-13.0.782.1-13.0.782.11.diff.xz
 Source1007: patch-13.0.782.11-13.0.782.13.diff.xz
 Source1008: patch-13.0.782.13-13.0.782.15.diff.xz
+Source1009: patch-13.0.782.15-13.0.782.20.diff.xz
 Patch0: chromium-13.0.782.1-skip-builder-tests.patch
 Patch1: chromium-13.0.767.1-gcc46.patch
 Patch2: chromium-13.0.782.1-exclude-chromeos-options.patch
@@ -66,6 +67,7 @@ tar xvf %{_sourcedir}/binary-13.0.772.0-13.0.782.1.tar.xz
 %patchver 13.0.782.1 13.0.782.11
 %patchver 13.0.782.11 13.0.782.13
 %patchver 13.0.782.13 13.0.782.15
+%patchver 13.0.782.15 13.0.782.20
 
 %patch0 -p1 -b .skip-builder-tests
 %patch1 -p1 -b .gcc46
