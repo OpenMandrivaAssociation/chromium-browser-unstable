@@ -1,11 +1,11 @@
 %define channel dev
 %define crname chromium-browser
 %define _crdir %{_libdir}/%{crname}
-%define basever 13.0.761.0
+%define basever 14.0.794.0
 %define patchver() ([ -f %{_sourcedir}/patch-%1-%2.diff.xz ] || exit 1; xz -dc %{_sourcedir}/patch-%1-%2.diff.xz|patch -p1);
 
 Name: chromium-browser-unstable
-Version: 13.0.782.24
+Version: 14.0.794.0
 Release: %mkrel 1
 Summary: A fast webkit-based web browser
 Group: Networking/WWW
@@ -14,20 +14,10 @@ URL: http://www.chromium.org/getting-involved/dev-channel
 Source0: chromium-%{basever}.tar.xz
 Source1: chromium-wrapper
 Source2: chromium-browser.desktop
-Source1000: patch-13.0.761.0-13.0.767.1.diff.xz
-Source1001: binary-13.0.761.0-13.0.767.1.tar.xz
-Source1002: patch-13.0.767.1-13.0.772.0.diff.xz
-Source1003: binary-13.0.767.1-13.0.772.0.tar.xz
-Source1004: patch-13.0.772.0-13.0.782.1.diff.xz
-Source1005: binary-13.0.772.0-13.0.782.1.tar.xz
-Source1006: patch-13.0.782.1-13.0.782.11.diff.xz
-Source1007: patch-13.0.782.11-13.0.782.13.diff.xz
-Source1008: patch-13.0.782.13-13.0.782.15.diff.xz
-Source1009: patch-13.0.782.15-13.0.782.20.diff.xz
-Source1010: patch-13.0.782.20-13.0.782.24.diff.xz
 Patch0: chromium-13.0.782.1-skip-builder-tests.patch
-Patch1: chromium-13.0.767.1-gcc46.patch
+Patch1: chromium-14.0.794.0-gcc46.patch
 Patch2: chromium-13.0.782.1-exclude-chromeos-options.patch
+Patch3: chromium-13.0.782.24-version-modifier.patch
 Provides: %{crname}
 Conflicts: chromium-browser-stable
 Conflicts: chromium-browser-beta
@@ -59,17 +49,6 @@ your profile before changing channels.
 
 %prep
 %setup -q -n chromium-%{basever}
-%patchver 13.0.761.0 13.0.767.1
-tar xvf %{_sourcedir}/binary-13.0.761.0-13.0.767.1.tar.xz
-%patchver 13.0.767.1 13.0.772.0
-tar xvf %{_sourcedir}/binary-13.0.767.1-13.0.772.0.tar.xz
-%patchver 13.0.772.0 13.0.782.1
-tar xvf %{_sourcedir}/binary-13.0.772.0-13.0.782.1.tar.xz
-%patchver 13.0.782.1 13.0.782.11
-%patchver 13.0.782.11 13.0.782.13
-%patchver 13.0.782.13 13.0.782.15
-%patchver 13.0.782.15 13.0.782.20
-%patchver 13.0.782.20 13.0.782.24
 
 %patch0 -p1 -b .skip-builder-tests
 %patch1 -p1 -b .gcc46
@@ -81,31 +60,10 @@ sed -i -e '/test_support_common/s/^/#/' \
 
 # Hard code extra version
 FILE=chrome/browser/platform_util_common_linux.cc
-sed -i.orig -e 's/getenv("CHROME_VERSION_EXTRA")/"%{product_vendor} %{product_version}"/' $FILE
+sed -i.orig -e 's/getenv("CHROME_VERSION_EXTRA")/"%{channel} %{product_vendor} %{product_version}"/' $FILE
 cmp $FILE $FILE.orig && exit 1
 
 # Remove old files
-# 13.0.767.1
-rm third_party/libsrtp/src/doc/libsrtp.pdf
-# 13.0.782.1
-rm chrome/app/theme/statusbar_network_bars0b.png
-rm chrome/app/theme/statusbar_network_bars1b.png
-rm chrome/app/theme/statusbar_network_bars1r.png
-rm chrome/app/theme/statusbar_network_bars2b.png
-rm chrome/app/theme/statusbar_network_bars2r.png
-rm chrome/app/theme/statusbar_network_bars3b.png
-rm chrome/app/theme/statusbar_network_bars3r.png
-rm chrome/app/theme/statusbar_network_bars4b.png
-rm chrome/app/theme/statusbar_network_bars4r.png
-rm chrome/browser/resources/shared/images/mediaplayer_full_screen.png
-rm chrome/browser/resources/shared/images/mediaplayer_full_screen_exit.png
-rm chrome/browser/resources/shared/images/mediaplayer_next.png
-rm chrome/browser/resources/shared/images/mediaplayer_pause.png
-rm chrome/browser/resources/shared/images/mediaplayer_play.png
-rm chrome/browser/resources/shared/images/mediaplayer_playlist.png
-rm chrome/browser/resources/shared/images/mediaplayer_prev.png
-rm chrome/browser/resources/shared/images/mediaplayer_vol_high.png
-rm chrome/browser/resources/shared/images/mediaplayer_vol_mute.png
 
 %build
 export GYP_GENERATORS=make
