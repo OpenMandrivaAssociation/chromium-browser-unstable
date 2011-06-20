@@ -6,7 +6,7 @@
 
 Name: chromium-browser-unstable
 Version: 14.0.794.0
-Release: %mkrel 1
+Release: %mkrel 2
 Summary: A fast webkit-based web browser
 Group: Networking/WWW
 License: BSD, LGPL
@@ -53,6 +53,7 @@ your profile before changing channels.
 %patch0 -p1 -b .skip-builder-tests
 %patch1 -p1 -b .gcc46
 %patch2 -p1 -b .exclude-chromeos-options
+%patch3 -p1 -b .version-modifier
 echo "%{channel}" > build/LASTCHANGE.in
 
 sed -i -e '/test_support_common/s/^/#/' \
