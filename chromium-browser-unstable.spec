@@ -65,7 +65,7 @@ sed -i -e '/test_support_common/s/^/#/' \
 
 # Hard code extra version
 FILE=chrome/browser/platform_util_common_linux.cc
-sed -i.orig -e 's/getenv("CHROME_VERSION_EXTRA")/"%{channel} %{product_vendor} %{product_version}"/' $FILE
+sed -i.orig -e 's/getenv("CHROME_VERSION_EXTRA")/"%{product_vendor} %{product_version}"/' $FILE
 cmp $FILE $FILE.orig && exit 1
 
 # Remove old files
