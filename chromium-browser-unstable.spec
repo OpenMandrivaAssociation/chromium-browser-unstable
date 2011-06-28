@@ -1,11 +1,11 @@
-%define channel dev
+%define revision 90703
 %define crname chromium-browser
 %define _crdir %{_libdir}/%{crname}
 %define basever 14.0.794.0
 %define patchver() ([ -f %{_sourcedir}/patch-%1-%2.diff.xz ] || exit 1; xz -dc %{_sourcedir}/patch-%1-%2.diff.xz|patch -p1);
 
 Name: chromium-browser-unstable
-Version: 14.0.797.0
+Version: 14.0.803.0
 Release: %mkrel 1
 Summary: A fast webkit-based web browser
 Group: Networking/WWW
@@ -16,10 +16,11 @@ Source1: chromium-wrapper
 Source2: chromium-browser.desktop
 Source1000: patch-14.0.794.0-14.0.797.0.diff.xz
 Source1001: binary-14.0.794.0-14.0.797.0.tar.xz
+Source1002: patch-14.0.797.0-14.0.803.0.diff.xz
+Source1003: binary-14.0.797.0-14.0.803.0.tar.xz
 Patch0: chromium-13.0.782.1-skip-builder-tests.patch
 Patch1: chromium-14.0.797.0-gcc46.patch
 Patch2: chromium-13.0.782.1-exclude-chromeos-options.patch
-Patch3: chromium-13.0.782.24-version-modifier.patch
 Provides: %{crname}
 Conflicts: chromium-browser-stable
 Conflicts: chromium-browser-beta
@@ -53,22 +54,25 @@ your profile before changing channels.
 %setup -q -n chromium-%{basever}
 %patchver 14.0.794.0 14.0.797.0
 tar xvf %{_sourcedir}/binary-14.0.794.0-14.0.797.0.tar.xz
+%patchver 14.0.797.0 14.0.803.0
+tar xvf %{_sourcedir}/binary-14.0.797.0-14.0.803.0.tar.xz
 
 %patch0 -p1 -b .skip-builder-tests
 %patch1 -p1 -b .gcc46
 %patch2 -p1 -b .exclude-chromeos-options
-%patch3 -p1 -b .version-modifier
-echo "%{channel}" > build/LASTCHANGE.in
+echo "%{revision}" > build/LASTCHANGE.in
 
 sed -i -e '/test_support_common/s/^/#/' \
 	chrome/browser/sync/tools/sync_tools.gyp
 
 # Hard code extra version
-FILE=chrome/browser/platform_util_common_linux.cc
+FILE=chrome/common/chrome_version_info_linux.cc
 sed -i.orig -e 's/getenv("CHROME_VERSION_EXTRA")/"%{product_vendor} %{product_version}"/' $FILE
 cmp $FILE $FILE.orig && exit 1
 
 # Remove old files
+# 14.0.803.0
+rm chrome/app/theme/pageinfo_internal.png
 
 %build
 export GYP_GENERATORS=make
