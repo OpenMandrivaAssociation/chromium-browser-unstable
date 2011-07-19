@@ -1,11 +1,11 @@
-%define revision 90703
+%define revision 93027
 %define crname chromium-browser
 %define _crdir %{_libdir}/%{crname}
 %define basever 14.0.794.0
 %define patchver() ([ -f %{_sourcedir}/patch-%1-%2.diff.xz ] || exit 1; xz -dc %{_sourcedir}/patch-%1-%2.diff.xz|patch -p1);
 
 Name: chromium-browser-unstable
-Version: 14.0.803.0
+Version: 14.0.825.0
 Release: %mkrel 1
 Summary: A fast webkit-based web browser
 Group: Networking/WWW
@@ -18,7 +18,9 @@ Source1000: patch-14.0.794.0-14.0.797.0.diff.xz
 Source1001: binary-14.0.794.0-14.0.797.0.tar.xz
 Source1002: patch-14.0.797.0-14.0.803.0.diff.xz
 Source1003: binary-14.0.797.0-14.0.803.0.tar.xz
-Patch0: chromium-13.0.782.1-skip-builder-tests.patch
+Source1004: patch-14.0.803.0-14.0.825.0.diff.xz
+Source1005: binary-14.0.803.0-14.0.825.0.tar.xz
+Patch0: chromium-14.0.825.0-skip-builder-tests.patch
 Patch1: chromium-14.0.797.0-gcc46.patch
 Patch2: chromium-13.0.782.1-exclude-chromeos-options.patch
 Provides: %{crname}
@@ -56,6 +58,8 @@ your profile before changing channels.
 tar xvf %{_sourcedir}/binary-14.0.794.0-14.0.797.0.tar.xz
 %patchver 14.0.797.0 14.0.803.0
 tar xvf %{_sourcedir}/binary-14.0.797.0-14.0.803.0.tar.xz
+%patchver 14.0.803.0 14.0.825.0
+tar xvf %{_sourcedir}/binary-14.0.803.0-14.0.825.0.tar.xz
 
 %patch0 -p1 -b .skip-builder-tests
 %patch1 -p1 -b .gcc46
@@ -73,6 +77,98 @@ cmp $FILE $FILE.orig && exit 1
 # Remove old files
 # 14.0.803.0
 rm chrome/app/theme/pageinfo_internal.png
+# 14.0.825.0
+rm app/resources/app_top_center.png
+rm app/resources/app_top_left.png
+rm app/resources/app_top_right.png
+rm app/resources/browser_action_badge_center.png
+rm app/resources/browser_action_badge_left.png
+rm app/resources/browser_action_badge_right.png
+rm app/resources/close.png
+rm app/resources/close_h.png
+rm app/resources/close_p.png
+rm app/resources/close_sa.png
+rm app/resources/close_sa_h.png
+rm app/resources/close_sa_p.png
+rm app/resources/content_bottom_center.png
+rm app/resources/content_bottom_left_corner.png
+rm app/resources/content_bottom_right_corner.png
+rm app/resources/content_left_side.png
+rm app/resources/content_right_side.png
+rm app/resources/default_favicon.png
+rm app/resources/folder_closed.png
+rm app/resources/folder_closed_rtl.png
+rm app/resources/folder_open.png
+rm app/resources/folder_open_rtl.png
+rm app/resources/frame_app_panel_default.png
+rm app/resources/frame_default.png
+rm app/resources/frame_default_inactive.png
+rm app/resources/input_good.png
+rm app/resources/large_throbber.png
+rm app/resources/linux_close.png
+rm app/resources/linux_close_h.png
+rm app/resources/linux_close_p.png
+rm app/resources/linux_maximize.png
+rm app/resources/linux_maximize_h.png
+rm app/resources/linux_maximize_p.png
+rm app/resources/linux_minimize.png
+rm app/resources/linux_minimize_h.png
+rm app/resources/linux_minimize_p.png
+rm app/resources/linux_restore.png
+rm app/resources/linux_restore_h.png
+rm app/resources/linux_restore_p.png
+rm app/resources/maximize.png
+rm app/resources/maximize_h.png
+rm app/resources/maximize_p.png
+rm app/resources/menu_arrow.png
+rm app/resources/menu_check.png
+rm app/resources/menu_droparrow.png
+rm app/resources/menu_droparrow_sharp.png
+rm app/resources/minimize.png
+rm app/resources/minimize_h.png
+rm app/resources/minimize_p.png
+rm app/resources/restore.png
+rm app/resources/restore_h.png
+rm app/resources/restore_p.png
+rm app/resources/textbutton_b_h.png
+rm app/resources/textbutton_b_p.png
+rm app/resources/textbutton_bl_h.png
+rm app/resources/textbutton_bl_p.png
+rm app/resources/textbutton_br_h.png
+rm app/resources/textbutton_br_p.png
+rm app/resources/textbutton_c_h.png
+rm app/resources/textbutton_c_p.png
+rm app/resources/textbutton_l_h.png
+rm app/resources/textbutton_l_p.png
+rm app/resources/textbutton_r_h.png
+rm app/resources/textbutton_r_p.png
+rm app/resources/textbutton_t_h.png
+rm app/resources/textbutton_t_p.png
+rm app/resources/textbutton_tl_h.png
+rm app/resources/textbutton_tl_p.png
+rm app/resources/textbutton_tr_h.png
+rm app/resources/textbutton_tr_p.png
+rm app/resources/throbber.png
+rm app/resources/window_bottom_center.png
+rm app/resources/window_bottom_left_corner.png
+rm app/resources/window_bottom_right_corner.png
+rm app/resources/window_left_side.png
+rm app/resources/window_right_side.png
+rm app/resources/window_top_center.png
+rm app/resources/window_top_left_corner.png
+rm app/resources/window_top_right_corner.png
+rm app/test/data/data_pack_unittest/sample.pak
+rm chrome/app/theme/chromium/chromium_icon_32.png
+rm chrome/app/theme/ntp_store_favicon.png
+rm chrome/app/theme/ntp_themes_gallery_favicon.png
+rm chrome/app/theme/ntp_welcome_favicon.png
+rm chrome/app/theme/statusbar_window_center.png
+rm chrome/app/theme/statusbar_window_left.png
+rm chrome/app/theme/statusbar_window_right.png
+rm chrome/app/theme/statusbar_window_switcher.png
+rm remoting/webapp/me2mom/chromoting128.png
+rm third_party/WebKit/Source/WebCore/Resources/crossHairCursor.png
+rm third_party/WebKit/Source/WebCore/Resources/notAllowedCursor.png
 
 %build
 export GYP_GENERATORS=make
