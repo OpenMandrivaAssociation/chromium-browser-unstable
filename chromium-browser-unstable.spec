@@ -22,6 +22,7 @@ Source1004: patch-14.0.803.0-14.0.825.0.diff.xz
 Source1005: binary-14.0.803.0-14.0.825.0.tar.xz
 Source1006: patch-14.0.825.0-14.0.835.0.diff.xz
 Source1007: binary-14.0.825.0-14.0.835.0.tar.xz
+Source1008: script-14.0.825.0-14.0.835.0.sh
 Patch0: chromium-14.0.825.0-skip-builder-tests.patch
 Patch1: chromium-14.0.835.0-gcc46.patch
 Patch2: chromium-14.0.835.0-exclude-chromeos-options.patch
