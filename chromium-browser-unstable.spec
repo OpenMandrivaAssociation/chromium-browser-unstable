@@ -1,11 +1,11 @@
-%define revision 95190
+%define revision 95793
 %define crname chromium-browser
 %define _crdir %{_libdir}/%{crname}
 %define basever 14.0.794.0
 %define patchver() ([ -f %{_sourcedir}/patch-%1-%2.diff.xz ] || exit 1; xz -dc %{_sourcedir}/patch-%1-%2.diff.xz|patch -p1);
 
 Name: chromium-browser-unstable
-Version: 14.0.835.18
+Version: 14.0.835.29
 Release: %mkrel 1
 Summary: A fast webkit-based web browser
 Group: Networking/WWW
@@ -27,6 +27,8 @@ Source1009: script-14.0.825.0-14.0.835.0.sh
 Source1010: patch-14.0.835.0-14.0.835.8.diff.xz
 Source1011: patch-14.0.835.8-14.0.835.15.diff.xz
 Source1012: patch-14.0.835.15-14.0.835.18.diff.xz
+Source1013: patch-14.0.835.18-14.0.835.29.diff.xz
+Source1014: binary-14.0.835.18-14.0.835.29.tar.xz
 Patch0: chromium-14.0.825.0-skip-builder-tests.patch
 Patch1: chromium-14.0.835.0-gcc46.patch
 Patch2: chromium-14.0.835.0-exclude-chromeos-options.patch
@@ -75,6 +77,8 @@ sh -x %{_sourcedir}/script-14.0.825.0-14.0.835.0.sh
 %patchver 14.0.835.0 14.0.835.8
 %patchver 14.0.835.8 14.0.835.15
 %patchver 14.0.835.15 14.0.835.18
+%patchver 14.0.835.18 14.0.835.29
+tar xvf %{_sourcedir}/binary-14.0.835.18-14.0.835.29.tar.xz
 
 %patch0 -p1 -b .skip-builder-tests
 %patch1 -p1 -b .gcc46
