@@ -14,6 +14,7 @@ URL: http://www.chromium.org/getting-involved/dev-channel
 Source0: chromium-%{basever}.tar.xz
 Source1: chromium-wrapper
 Source2: chromium-browser.desktop
+Source3: attributed_string_coder.h
 Patch0: chromium-15.0.849.0-skip-builder-tests.patch
 Patch1: chromium-14.0.835.0-gcc46.patch
 Patch2: chromium-14.0.835.0-exclude-chromeos-options.patch
@@ -48,6 +49,8 @@ your profile before changing channels.
 
 %prep
 %setup -q -n chromium-%{basever}
+install -D %{_sourcedir}/attributed_string_coder.h \
+	chrome/common/mac/attributed_string_coder.h
 
 %patch0 -p1 -b .skip-builder-tests
 %patch1 -p1 -b .gcc46
