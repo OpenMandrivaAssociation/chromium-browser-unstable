@@ -1,11 +1,11 @@
-%define revision 98568
+%define revision 99955
 %define crname chromium-browser
 %define _crdir %{_libdir}/%{crname}
 %define basever 15.0.865.0
 %define patchver() ([ -f %{_sourcedir}/patch-%1-%2.diff.xz ] || exit 1; xz -dc %{_sourcedir}/patch-%1-%2.diff.xz|patch -p1);
 
 Name: chromium-browser-unstable
-Version: 15.0.865.0
+Version: 15.0.874.1
 Release: %mkrel 1
 Summary: A fast webkit-based web browser
 Group: Networking/WWW
@@ -15,9 +15,11 @@ Source0: chromium-%{basever}.tar.xz
 Source1: chromium-wrapper
 Source2: chromium-browser.desktop
 Source3: attributed_string_coder.h
-Patch0: chromium-15.0.849.0-skip-builder-tests.patch
+Source1000: patch-15.0.865.0-15.0.874.1.diff.xz
+Source1001: binary-15.0.865.0-15.0.874.1.tar.xz
+Source1002: script-15.0.865.0-15.0.874.1.sh
+Patch0: chromium-15.0.874.1-skip-builder-tests.patch
 Patch1: chromium-14.0.835.0-gcc46.patch
-Patch2: chromium-14.0.835.0-exclude-chromeos-options.patch
 Provides: %{crname}
 Conflicts: chromium-browser-stable
 Conflicts: chromium-browser-beta
@@ -51,10 +53,12 @@ your profile before changing channels.
 %setup -q -n chromium-%{basever}
 install -D %{_sourcedir}/attributed_string_coder.h \
 	chrome/common/mac/attributed_string_coder.h
+%patchver 15.0.865.0 15.0.874.1
+tar xvf %{_sourcedir}/binary-15.0.865.0-15.0.874.1.tar.xz
+sh -x %{_sourcedir}/script-15.0.865.0-15.0.874.1.sh
 
 %patch0 -p1 -b .skip-builder-tests
 %patch1 -p1 -b .gcc46
-#%patch2 -p1 -b .exclude-chromeos-options
 echo "%{revision}" > build/LASTCHANGE.in
 
 sed -i -e '/test_support_common/s/^/#/' \
