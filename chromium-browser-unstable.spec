@@ -1,11 +1,11 @@
-%define revision 100838
+%define revision 101261
 %define crname chromium-browser
 %define _crdir %{_libdir}/%{crname}
 %define basever 15.0.865.0
 %define patchver() ([ -f %{_sourcedir}/patch-%1-%2.diff.xz ] || exit 1; xz -dc %{_sourcedir}/patch-%1-%2.diff.xz|patch -p1);
 
 Name: chromium-browser-unstable
-Version: 15.0.874.12
+Version: 15.0.874.15
 Release: %mkrel 1
 Summary: A fast webkit-based web browser
 Group: Networking/WWW
@@ -19,6 +19,7 @@ Source1000: patch-15.0.865.0-15.0.874.1.diff.xz
 Source1001: binary-15.0.865.0-15.0.874.1.tar.xz
 Source1002: script-15.0.865.0-15.0.874.1.sh
 Source1003: patch-15.0.874.1-15.0.874.12.diff.xz
+Source1004: patch-15.0.874.12-15.0.874.15.diff.xz
 Patch0: chromium-15.0.874.1-skip-builder-tests.patch
 Patch1: chromium-14.0.835.0-gcc46.patch
 Provides: %{crname}
@@ -59,6 +60,7 @@ tar xvf %{_sourcedir}/binary-15.0.865.0-15.0.874.1.tar.xz
 sh -x %{_sourcedir}/script-15.0.865.0-15.0.874.1.sh
 %patchver 15.0.874.1 15.0.874.12
 rm net/data/ssl/certificates/unosoft_hu_cert.der
+%patchver 15.0.874.12 15.0.874.15
 
 %patch0 -p1 -b .skip-builder-tests
 %patch1 -p1 -b .gcc46
