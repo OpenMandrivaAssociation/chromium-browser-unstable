@@ -1,11 +1,11 @@
-%define revision 101896
+%define revision 103668
 %define crname chromium-browser
 %define _crdir %{_libdir}/%{crname}
-%define basever 15.0.865.0
+%define basever 16.0.899.0
 %define patchver() ([ -f %{_sourcedir}/patch-%1-%2.diff.xz ] || exit 1; xz -dc %{_sourcedir}/patch-%1-%2.diff.xz|patch -p1);
 
 Name: chromium-browser-unstable
-Version: 15.0.874.21
+Version: 16.0.899.0
 Release: %mkrel 1
 Summary: A fast webkit-based web browser
 Group: Networking/WWW
@@ -14,14 +14,7 @@ URL: http://www.chromium.org/getting-involved/dev-channel
 Source0: chromium-%{basever}.tar.xz
 Source1: chromium-wrapper
 Source2: chromium-browser.desktop
-Source3: attributed_string_coder.h
-Source1000: patch-15.0.865.0-15.0.874.1.diff.xz
-Source1001: binary-15.0.865.0-15.0.874.1.tar.xz
-Source1002: script-15.0.865.0-15.0.874.1.sh
-Source1003: patch-15.0.874.1-15.0.874.12.diff.xz
-Source1004: patch-15.0.874.12-15.0.874.15.diff.xz
-Source1005: patch-15.0.874.15-15.0.874.21.diff.xz
-Patch0: chromium-15.0.874.1-skip-builder-tests.patch
+Patch0: chromium-16.0.899.0-skip-builder-tests.patch
 Patch1: chromium-14.0.835.0-gcc46.patch
 Provides: %{crname}
 Conflicts: chromium-browser-stable
@@ -35,7 +28,7 @@ BuildRequires: libxscrnsaver-devel, libdbus-glib-devel, libcups-devel
 BuildRequires: libgnome-keyring-devel libvpx-devel libxtst-devel
 BuildRequires: libxslt-devel libxml2-devel libxt-devel libpam-devel
 BuildRequires: libevent-devel libflac-devel libpulseaudio-devel
-ExclusiveArch: i586 x86_64 armel
+ExclusiveArch: i586 x86_64 armv7l
 
 %description
 Chromium is a browser that combines a minimal design with sophisticated
@@ -54,15 +47,9 @@ your profile before changing channels.
 
 %prep
 %setup -q -n chromium-%{basever}
-install -D %{_sourcedir}/attributed_string_coder.h \
-	chrome/common/mac/attributed_string_coder.h
-%patchver 15.0.865.0 15.0.874.1
-tar xvf %{_sourcedir}/binary-15.0.865.0-15.0.874.1.tar.xz
-sh -x %{_sourcedir}/script-15.0.865.0-15.0.874.1.sh
-%patchver 15.0.874.1 15.0.874.12
-rm net/data/ssl/certificates/unosoft_hu_cert.der
-%patchver 15.0.874.12 15.0.874.15
-%patchver 15.0.874.15 15.0.874.21
+#%patchver 15.0.865.0 15.0.874.1
+#tar xvf %{_sourcedir}/binary-15.0.865.0-15.0.874.1.tar.xz
+#sh -x %{_sourcedir}/script-15.0.865.0-15.0.874.1.sh
 
 %patch0 -p1 -b .skip-builder-tests
 %patch1 -p1 -b .gcc46
@@ -98,6 +85,13 @@ build/gyp_chromium --depth=. \
 	-D disable_sse2=1 \
 	-D release_extra_cflags="-march=i586"
 %endif
+%ifarch armv7l
+	-D target_arch=arm \
+	-D disable_nacl=1 \
+	-D linux_use_tcmalloc=0 \
+	-D armv7=1 \
+	-D release_extra_cflags="-marm"
+%endif
 
 # Note: DON'T use system sqlite (3.7.3) -- it breaks history search
 
@@ -115,7 +109,9 @@ install -m 4755 out/Release/chrome_sandbox %{buildroot}%{_crdir}/chrome-sandbox
 install -m 644 out/Release/chrome.1 %{buildroot}%{_mandir}/man1/%{crname}.1
 install -m 644 out/Release/chrome.pak %{buildroot}%{_crdir}/
 install -m 755 out/Release/libffmpegsumo.so %{buildroot}%{_crdir}/
+%ifnarch armv7l
 install -m 755 out/Release/libppGoogleNaClPluginChrome.so %{buildroot}%{_crdir}/
+%endif
 install -m 644 out/Release/locales/*.pak %{buildroot}%{_crdir}/locales/
 install -m 644 out/Release/xdg-settings %{buildroot}%{_crdir}/
 install -m 644 out/Release/resources.pak %{buildroot}%{_crdir}/
@@ -146,7 +142,9 @@ rm -rf %{buildroot}
 %{_crdir}/chrome-sandbox
 %{_crdir}/chrome.pak
 %{_crdir}/libffmpegsumo.so
+%ifnarch armv7l
 %{_crdir}/libppGoogleNaClPluginChrome.so
+%endif
 %{_crdir}/locales
 %{_crdir}/resources.pak
 %{_crdir}/resources
