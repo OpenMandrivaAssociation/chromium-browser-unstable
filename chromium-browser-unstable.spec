@@ -1,11 +1,11 @@
-%define revision 103668
+%define revision 104662
 %define crname chromium-browser
 %define _crdir %{_libdir}/%{crname}
-%define basever 16.0.899.0
+%define basever 16.0.904.0
 %define patchver() ([ -f %{_sourcedir}/patch-%1-%2.diff.xz ] || exit 1; xz -dc %{_sourcedir}/patch-%1-%2.diff.xz|patch -p1);
 
 Name: chromium-browser-unstable
-Version: 16.0.899.0
+Version: 16.0.904.0
 Release: %mkrel 1
 Summary: A fast webkit-based web browser
 Group: Networking/WWW
@@ -14,8 +14,6 @@ URL: http://www.chromium.org/getting-involved/dev-channel
 Source0: chromium-%{basever}.tar.xz
 Source1: chromium-wrapper
 Source2: chromium-browser.desktop
-Patch0: chromium-16.0.899.0-skip-builder-tests.patch
-Patch1: chromium-14.0.835.0-gcc46.patch
 Provides: %{crname}
 Conflicts: chromium-browser-stable
 Conflicts: chromium-browser-beta
@@ -52,12 +50,7 @@ your profile before changing channels.
 #tar xvf %{_sourcedir}/binary-15.0.865.0-15.0.874.1.tar.xz
 #sh -x %{_sourcedir}/script-15.0.865.0-15.0.874.1.sh
 
-%patch0 -p1 -b .skip-builder-tests
-%patch1 -p1 -b .gcc46
 echo "%{revision}" > build/LASTCHANGE.in
-
-sed -i -e '/test_support_common/s/^/#/' \
-	chrome/browser/sync/tools/sync_tools.gyp
 
 # Hard code extra version
 FILE=chrome/common/chrome_version_info_linux.cc
@@ -103,6 +96,7 @@ rm -rf %{buildroot}
 mkdir -p %{buildroot}%{_bindir}
 mkdir -p %{buildroot}%{_crdir}/locales
 mkdir -p %{buildroot}%{_crdir}/themes
+mkdir -p %{buildroot}%{_crdir}/default_apps
 mkdir -p %{buildroot}%{_mandir}/man1
 install -m 755 %{_sourcedir}/chromium-wrapper %{buildroot}%{_crdir}/
 install -m 755 out/Release/chrome %{buildroot}%{_crdir}/
@@ -112,10 +106,15 @@ install -m 644 out/Release/chrome.pak %{buildroot}%{_crdir}/
 install -m 755 out/Release/libffmpegsumo.so %{buildroot}%{_crdir}/
 %ifnarch armv7l
 install -m 755 out/Release/libppGoogleNaClPluginChrome.so %{buildroot}%{_crdir}/
+install -m 755 out/Release/nacl_helper_bootstrap %{buildroot}%{_crdir}/
+install -m 755 out/Release/nacl_helper %{buildroot}%{_crdir}/
+install -m 644 out/Release/nacl_irt_*.nexe %{buildroot}%{_crdir}/
 %endif
 install -m 644 out/Release/locales/*.pak %{buildroot}%{_crdir}/locales/
-install -m 644 out/Release/xdg-settings %{buildroot}%{_crdir}/
+install -m 755 out/Release/xdg-mime %{buildroot}%{_crdir}/
+install -m 755 out/Release/xdg-settings %{buildroot}%{_crdir}/
 install -m 644 out/Release/resources.pak %{buildroot}%{_crdir}/
+install -m 644 chrome/browser/resources/default_apps/* %{buildroot}%{_crdir}/default_apps/
 ln -s %{_crdir}/chromium-wrapper %{buildroot}%{_bindir}/%{crname}
 
 find out/Release/resources/ -name "*.d" -exec rm {} \;
@@ -126,7 +125,7 @@ mkdir -p %{buildroot}%{_datadir}/applications
 install -m 644 %{_sourcedir}/%{crname}.desktop %{buildroot}%{_datadir}/applications/
 
 # icon
-for i in 16 32 48 256; do
+for i in 16 22 24 26 32 48 64 128 256; do
 	mkdir -p %{buildroot}%{_iconsdir}/hicolor/${i}x${i}/apps
 	install -m 644 chrome/app/theme/chromium/product_logo_$i.png \
 		%{buildroot}%{_iconsdir}/hicolor/${i}x${i}/apps/%{crname}.png
@@ -145,11 +144,16 @@ rm -rf %{buildroot}
 %{_crdir}/libffmpegsumo.so
 %ifnarch armv7l
 %{_crdir}/libppGoogleNaClPluginChrome.so
+%{_crdir}/nacl_helper_bootstrap
+%{_crdir}/nacl_helper
+%{_crdir}/nacl_irt_*.nexe
 %endif
 %{_crdir}/locales
 %{_crdir}/resources.pak
 %{_crdir}/resources
 %{_crdir}/themes
+%{_crdir}/default_apps
+%{_crdir}/xdg-mime
 %{_crdir}/xdg-settings
 %{_mandir}/man1/%{crname}*
 %{_datadir}/applications/*.desktop
