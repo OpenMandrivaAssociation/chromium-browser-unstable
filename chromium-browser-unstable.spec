@@ -14,6 +14,8 @@ URL: http://www.chromium.org/getting-involved/dev-channel
 Source0: chromium-%{basever}.tar.xz
 Source1: chromium-wrapper
 Source2: chromium-browser.desktop
+Source1000: patch-16.0.904.0-16.0.912.0.diff.xz
+Source1001: binary-16.0.904.0-16.0.912.0.tar.xz
 Provides: %{crname}
 Conflicts: chromium-browser-stable
 Conflicts: chromium-browser-beta
