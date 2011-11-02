@@ -1,11 +1,11 @@
-%define revision 107511
+%define revision 108057
 %define crname chromium-browser
 %define _crdir %{_libdir}/%{crname}
 %define basever 16.0.904.0
 %define patchver() ([ -f %{_sourcedir}/patch-%1-%2.diff.xz ] || exit 1; xz -dc %{_sourcedir}/patch-%1-%2.diff.xz|patch -p1);
 
 Name: chromium-browser-unstable
-Version: 16.0.912.15
+Version: 16.0.912.21
 Release: %mkrel 1
 Summary: A fast webkit-based web browser
 Group: Networking/WWW
@@ -21,6 +21,7 @@ Source1003: binary-16.0.912.4-16.0.912.12.tar.xz
 Source1004: patch-16.0.912.4-16.0.912.12.diff.xz
 Source1005: binary-16.0.912.12-16.0.912.15.tar.xz
 Source1006: patch-16.0.912.12-16.0.912.15.diff.xz
+Source1007: patch-16.0.912.15-16.0.912.21.diff.xz
 Provides: %{crname}
 Conflicts: chromium-browser-stable
 Conflicts: chromium-browser-beta
@@ -61,6 +62,7 @@ rm ui/resources/aura/chromium-48.png
 tar xvf %{_sourcedir}/binary-16.0.912.4-16.0.912.12.tar.xz
 %patchver 16.0.912.12 16.0.912.15
 tar xvf %{_sourcedir}/binary-16.0.912.12-16.0.912.15.tar.xz
+%patchver 16.0.912.15 16.0.912.21
 
 echo "%{revision}" > build/LASTCHANGE.in
 
