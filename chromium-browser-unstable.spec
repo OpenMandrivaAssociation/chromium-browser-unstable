@@ -14,6 +14,7 @@ URL: http://www.chromium.org/getting-involved/dev-channel
 Source0: chromium-%{basever}.tar.xz
 Source1: chromium-wrapper
 Source2: chromium-browser.desktop
+Patch0: chromium-16.0.912.32-include-glib.patch
 Provides: %{crname}
 Conflicts: chromium-browser-stable
 Conflicts: chromium-browser-beta
@@ -46,6 +47,7 @@ your profile before changing channels.
 
 %prep
 %setup -q -n chromium-%{basever}
+%patch0 -p1 -b .include-glib
 
 echo "%{revision}" > build/LASTCHANGE.in
 
