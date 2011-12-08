@@ -1,11 +1,11 @@
-%define revision 110446
+%define revision 113143
 %define crname chromium-browser
 %define _crdir %{_libdir}/%{crname}
-%define basever 17.0.938.0
+%define basever 17.0.963.0
 %define patchver() ([ -f %{_sourcedir}/patch-%1-%2.diff.xz ] || exit 1; xz -dc %{_sourcedir}/patch-%1-%2.diff.xz|patch -p1);
 
 Name: chromium-browser-unstable
-Version: 17.0.942.0
+Version: 17.0.963.0
 Release: %mkrel 1
 Summary: A fast webkit-based web browser
 Group: Networking/WWW
@@ -48,8 +48,8 @@ your profile before changing channels.
 %prep
 %setup -q -n chromium-%{basever}
 %patch0 -p1 -b .include-glib
-%patchver 17.0.938.0 17.0.942.0
-tar xvf %{_sourcedir}/binary-17.0.938.0-17.0.942.0.tar.xz
+#%patchver 17.0.938.0 17.0.942.0
+#tar xvf %{_sourcedir}/binary-17.0.938.0-17.0.942.0.tar.xz
 
 echo "%{revision}" > build/LASTCHANGE.in
 
