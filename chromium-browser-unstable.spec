@@ -6,7 +6,7 @@
 
 Name: chromium-browser-unstable
 Version: 17.0.963.2
-Release: %mkrel 1
+Release: %mkrel 2
 Summary: A fast webkit-based web browser
 Group: Networking/WWW
 License: BSD, LGPL
@@ -72,7 +72,7 @@ build/gyp_chromium --depth=. \
 	-D use_system_zlib=1 \
 	-D use_system_bzip2=1 \
 	-D use_system_libpng=1 \
-	-D use_system_libjpeg=1 \
+	-D use_system_libjpeg=0 \
 	-D use_system_libevent=1 \
 	-D use_system_flac=1 \
 	-D use_system_vpx=0 \
