@@ -16,6 +16,7 @@ Source1: chromium-wrapper
 Source2: chromium-browser.desktop
 Source1000: patch-17.0.963.0-17.0.963.2.diff.xz
 Patch0: chromium-16.0.912.32-include-glib.patch
+Patch1: chromium-17.0.963.0-remove-inline.patch
 Provides: %{crname}
 Conflicts: chromium-browser-stable
 Conflicts: chromium-browser-beta
@@ -49,6 +50,8 @@ your profile before changing channels.
 %prep
 %setup -q -n chromium-%{basever}
 %patch0 -p1 -b .include-glib
+# for 2010.1
+%patch1 -p1 -b .remove-inline
 %patchver 17.0.963.0 17.0.963.2
 #tar xvf %{_sourcedir}/binary-17.0.938.0-17.0.942.0.tar.xz
 
