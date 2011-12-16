@@ -1,12 +1,12 @@
-%define revision 113542
+%define revision 114667
 %define crname chromium-browser
 %define _crdir %{_libdir}/%{crname}
 %define basever 17.0.963.0
 %define patchver() ([ -f %{_sourcedir}/patch-%1-%2.diff.xz ] || exit 1; xz -dc %{_sourcedir}/patch-%1-%2.diff.xz|patch -p1);
 
 Name: chromium-browser-unstable
-Version: 17.0.963.2
-Release: %mkrel 2
+Version: 17.0.963.12
+Release: %mkrel 1
 Summary: A fast webkit-based web browser
 Group: Networking/WWW
 License: BSD, LGPL
@@ -15,8 +15,10 @@ Source0: chromium-%{basever}.tar.xz
 Source1: chromium-wrapper
 Source2: chromium-browser.desktop
 Source1000: patch-17.0.963.0-17.0.963.2.diff.xz
+Source1001: patch-17.0.963.2-17.0.963.12.diff.xz
+Source1002: binary-17.0.963.2-17.0.963.12.tar.xz
 Patch0: chromium-16.0.912.32-include-glib.patch
-Patch1: chromium-17.0.963.0-remove-inline.patch
+Patch1: chromium-17.0.963.12-remove-inline.patch
 Provides: %{crname}
 Conflicts: chromium-browser-stable
 Conflicts: chromium-browser-beta
@@ -53,7 +55,8 @@ your profile before changing channels.
 # for 2010.1
 %patch1 -p1 -b .remove-inline
 %patchver 17.0.963.0 17.0.963.2
-#tar xvf %{_sourcedir}/binary-17.0.938.0-17.0.942.0.tar.xz
+%patchver 17.0.963.2 17.0.963.12
+tar xvf %{_sourcedir}/binary-17.0.963.2-17.0.963.12.tar.xz
 
 echo "%{revision}" > build/LASTCHANGE.in
 
