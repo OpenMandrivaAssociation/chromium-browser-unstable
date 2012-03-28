@@ -1,11 +1,11 @@
-%define revision 126852
+%define revision 128359
 %define crname chromium-browser
 %define _crdir %{_libdir}/%{crname}
-%define basever 19.0.1068.1
+%define basever 19.0.1077.3
 %define patchver() ([ -f %{_sourcedir}/patch-%1-%2.diff.xz ] || exit 1; xz -dc %{_sourcedir}/patch-%1-%2.diff.xz|patch -p1);
 
 Name: chromium-browser-unstable
-Version: 19.0.1068.1
+Version: 19.0.1077.3
 Release: %mkrel 1
 Summary: A fast webkit-based web browser
 Group: Networking/WWW
