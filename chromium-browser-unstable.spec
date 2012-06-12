@@ -1,11 +1,11 @@
-%define revision 128359
+%define revision 141382
 %define crname chromium-browser
 %define _crdir %{_libdir}/%{crname}
-%define basever 19.0.1077.3
+%define basever 21.0.1171.0
 %define patchver() ([ -f %{_sourcedir}/patch-%1-%2.diff.xz ] || exit 1; xz -dc %{_sourcedir}/patch-%1-%2.diff.xz|patch -p1);
 
 Name: chromium-browser-unstable
-Version: 19.0.1077.3
+Version: 21.0.1171.0
 Release: %mkrel 1
 Summary: A fast webkit-based web browser
 Group: Networking/WWW
@@ -15,17 +15,15 @@ Source0: chromium-%{basever}.tar.xz
 Source1: chromium-wrapper
 Source2: chromium-browser.desktop
 #Source1000: patch-17.0.963.0-17.0.963.2.diff.xz
-#Patch0: chromium-16.0.912.32-include-glib.patch
-Patch1: chromium-17.0.963.12-remove-inline.patch
 Provides: %{crname}
 Conflicts: chromium-browser-stable
 Conflicts: chromium-browser-beta
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot
 BuildRequires: bison, flex, gtk2-devel, atk-devel, libexpat-devel, gperf
 BuildRequires: libnspr-devel, libnss-devel, libalsa-devel
-BuildRequires: libglib2-devel, libbzip2-devel, libz-devel, libpng-devel
+BuildRequires: glib2-devel, libbzip2-devel, libz-devel, libpng-devel
 BuildRequires: libjpeg-devel, libmesagl-devel, libmesaglu-devel
-BuildRequires: libxscrnsaver-devel, libdbus-glib-devel, cups-devel
+BuildRequires: libxscrnsaver-devel, dbus-glib-devel, cups-devel
 BuildRequires: libgnome-keyring-devel libvpx-devel libxtst-devel
 BuildRequires: libxslt-devel libxml2-devel libxt-devel pam-devel
 BuildRequires: libevent-devel libflac-devel libpulseaudio-devel
@@ -49,9 +47,6 @@ your profile before changing channels.
 
 %prep
 %setup -q -n chromium-%{basever}
-#%patch0 -p1 -b .include-glib
-# for 2010.1
-%patch1 -p1 -b .remove-inline
 #%patchver 17.0.963.2 17.0.963.12
 #tar xvf %{_sourcedir}/binary-17.0.963.2-17.0.963.12.tar.xz
 
