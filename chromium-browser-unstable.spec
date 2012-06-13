@@ -20,14 +20,14 @@ Provides: %{crname}
 Conflicts: chromium-browser-stable
 Conflicts: chromium-browser-beta
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot
-BuildRequires: bison, flex, gtk2-devel, atk-devel, libexpat-devel, gperf
+BuildRequires: bison, flex, gtk2-devel, atk-devel, expat-devel, gperf
 BuildRequires: nspr-devel, nss-devel, libalsa-devel
 BuildRequires: glib2-devel, bzip2-devel, libz-devel, libpng-devel
-BuildRequires: libjpeg-devel, libmesagl-devel, libmesaglu-devel
+BuildRequires: jpeg-devel, mesagl-devel, mesaglu-devel
 BuildRequires: libxscrnsaver-devel, dbus-glib-devel, cups-devel
 BuildRequires: libgnome-keyring-devel libvpx-devel libxtst-devel
 BuildRequires: libxslt-devel libxml2-devel libxt-devel pam-devel
-BuildRequires: libevent-devel libflac-devel libpulseaudio-devel
+BuildRequires: libevent-devel libflac-devel pulseaudio-devel
 BuildRequires: elfutils-devel udev-devel
 ExclusiveArch: i586 x86_64 armv7l
 
