@@ -22,7 +22,7 @@ Conflicts: chromium-browser-beta
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot
 BuildRequires: bison, flex, gtk2-devel, atk-devel, expat-devel, gperf
 BuildRequires: nspr-devel, nss-devel, libalsa-devel
-BuildRequires: glib2-devel, bzip2-devel, libz-devel, libpng-devel
+BuildRequires: glib2-devel, bzip2-devel, zlib-devel, png-devel
 BuildRequires: jpeg-devel, mesagl-devel, mesaglu-devel
 BuildRequires: libxscrnsaver-devel, dbus-glib-devel, cups-devel
 BuildRequires: libgnome-keyring-devel libvpx-devel libxtst-devel
