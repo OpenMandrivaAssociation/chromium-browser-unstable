@@ -7,7 +7,7 @@
 
 Name: chromium-browser-unstable
 Version: 21.0.1171.0
-Release: %mkrel 2
+Release: %mkrel 3
 Summary: A fast webkit-based web browser
 Group: Networking/WWW
 License: BSD, LGPL
@@ -16,6 +16,7 @@ Source0: chromium-%{basever}.tar.xz
 Source1: chromium-wrapper
 Source2: chromium-browser.desktop
 #Source1000: patch-17.0.963.0-17.0.963.2.diff.xz
+Patch0: chromium-21.0.1171.0-remove-inline.patch
 Provides: %{crname}
 Conflicts: chromium-browser-stable
 Conflicts: chromium-browser-beta
@@ -28,7 +29,7 @@ BuildRequires: libxscrnsaver-devel, dbus-glib-devel, cups-devel
 BuildRequires: libgnome-keyring-devel libvpx-devel libxtst-devel
 BuildRequires: libxslt-devel libxml2-devel libxt-devel pam-devel
 BuildRequires: libevent-devel libflac-devel pulseaudio-devel
-BuildRequires: elfutils-devel udev-devel yasm v8-devel
+BuildRequires: elfutils-devel udev-devel yasm
 BuildRequires: pkgconfig(libusb-1.0)
 ExclusiveArch: i586 x86_64 armv7l
 
@@ -49,6 +50,7 @@ your profile before changing channels.
 
 %prep
 %setup -q -n chromium-%{basever}
+%patch0 -p1 -b .remove-inline
 #%patchver 17.0.963.2 17.0.963.12
 #tar xvf %{_src}/binary-17.0.963.2-17.0.963.12.tar.xz
 
@@ -67,7 +69,7 @@ build/gyp_chromium --depth=. \
 	-D linux_link_gnome_keyring=0 \
 	-D use_gconf=0 \
 	-D werror='' \
-	-D use_system_v8=1 \
+	-D use_system_v8=0 \
 	-D use_system_sqlite=0 \
 	-D use_system_libxml=1 \
 	-D use_system_zlib=1 \
@@ -109,6 +111,8 @@ install -m 755 out/Release/chrome %{buildroot}%{_crdir}/
 install -m 4755 out/Release/chrome_sandbox %{buildroot}%{_crdir}/chrome-sandbox
 install -m 644 out/Release/chrome.1 %{buildroot}%{_mandir}/man1/%{crname}.1
 install -m 644 out/Release/chrome.pak %{buildroot}%{_crdir}/
+install -m 644 out/Release/ui_resources_standard.pak %{buildroot}%{_crdir}/
+install -m 644 out/Release/theme_resources_standard.pak %{buildroot}%{_crdir}/
 install -m 755 out/Release/libffmpegsumo.so %{buildroot}%{_crdir}/
 %ifnarch armv7l
 install -m 755 out/Release/libppGoogleNaClPluginChrome.so %{buildroot}%{_crdir}/
@@ -157,6 +161,8 @@ rm -rf %{buildroot}
 %{_crdir}/locales
 %{_crdir}/resources.pak
 %{_crdir}/resources
+%{_crdir}/ui_resources_standard.pak
+%{_crdir}/theme_resources_standard.pak
 %{_crdir}/themes
 %{_crdir}/default_apps
 #%{_crdir}/xdg-mime
