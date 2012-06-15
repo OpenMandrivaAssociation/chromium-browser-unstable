@@ -7,7 +7,7 @@
 
 Name: chromium-browser-unstable
 Version: 21.0.1171.0
-Release: %mkrel 1
+Release: %mkrel 2
 Summary: A fast webkit-based web browser
 Group: Networking/WWW
 License: BSD, LGPL
@@ -22,13 +22,13 @@ Conflicts: chromium-browser-beta
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot
 BuildRequires: bison, flex, gtk2-devel, atk-devel, expat-devel, gperf
 BuildRequires: nspr-devel, nss-devel, libalsa-devel
-BuildRequires: glib2-devel, bzip2-devel, zlib-devel, png-devel
+BuildRequires: glib2-devel, bzip2-devel, pkgconfig(zlib), libpng-devel
 BuildRequires: jpeg-devel, mesagl-devel, mesaglu-devel
 BuildRequires: libxscrnsaver-devel, dbus-glib-devel, cups-devel
 BuildRequires: libgnome-keyring-devel libvpx-devel libxtst-devel
 BuildRequires: libxslt-devel libxml2-devel libxt-devel pam-devel
 BuildRequires: libevent-devel libflac-devel pulseaudio-devel
-BuildRequires: elfutils-devel udev-devel
+BuildRequires: elfutils-devel udev-devel yasm v8-devel
 ExclusiveArch: i586 x86_64 armv7l
 
 %description
@@ -66,12 +66,16 @@ build/gyp_chromium --depth=. \
 	-D linux_link_gnome_keyring=0 \
 	-D use_gconf=0 \
 	-D werror='' \
+	-D use_system_v8=1 \
 	-D use_system_sqlite=0 \
 	-D use_system_libxml=1 \
 	-D use_system_zlib=1 \
 	-D use_system_bzip2=1 \
+	-D use_system_xdg_utils=1 \
+	-D use_system_yasm=1	\
+	-D use_system_libusb=1 \
 	-D use_system_libpng=1 \
-	-D use_system_libjpeg=0 \
+	-D use_system_libjpeg=1 \
 	-D use_system_libevent=1 \
 	-D use_system_flac=1 \
 	-D use_system_vpx=0 \
@@ -112,8 +116,8 @@ install -m 755 out/Release/nacl_helper %{buildroot}%{_crdir}/
 install -m 644 out/Release/nacl_irt_*.nexe %{buildroot}%{_crdir}/
 %endif
 install -m 644 out/Release/locales/*.pak %{buildroot}%{_crdir}/locales/
-install -m 755 out/Release/xdg-mime %{buildroot}%{_crdir}/
-install -m 755 out/Release/xdg-settings %{buildroot}%{_crdir}/
+#install -m 755 out/Release/xdg-mime %{buildroot}%{_crdir}/
+#install -m 755 out/Release/xdg-settings %{buildroot}%{_crdir}/
 install -m 644 out/Release/resources.pak %{buildroot}%{_crdir}/
 install -m 644 chrome/browser/resources/default_apps/* %{buildroot}%{_crdir}/default_apps/
 ln -s %{_crdir}/chromium-wrapper %{buildroot}%{_bindir}/%{crname}
@@ -154,8 +158,8 @@ rm -rf %{buildroot}
 %{_crdir}/resources
 %{_crdir}/themes
 %{_crdir}/default_apps
-%{_crdir}/xdg-mime
-%{_crdir}/xdg-settings
+#%{_crdir}/xdg-mime
+#%{_crdir}/xdg-settings
 %{_mandir}/man1/%{crname}*
 %{_datadir}/applications/*.desktop
 %{_iconsdir}/hicolor/*/apps/%{crname}.png
