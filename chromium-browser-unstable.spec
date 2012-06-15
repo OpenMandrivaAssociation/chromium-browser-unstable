@@ -29,6 +29,7 @@ BuildRequires: libgnome-keyring-devel libvpx-devel libxtst-devel
 BuildRequires: libxslt-devel libxml2-devel libxt-devel pam-devel
 BuildRequires: libevent-devel libflac-devel pulseaudio-devel
 BuildRequires: elfutils-devel udev-devel yasm v8-devel
+BuildRequires: pkgconfig(libusb-1.0)
 ExclusiveArch: i586 x86_64 armv7l
 
 %description
