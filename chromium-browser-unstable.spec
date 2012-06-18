@@ -130,6 +130,10 @@ ln -s %{_crdir}/chromium-wrapper %{buildroot}%{_bindir}/%{crname}
 find out/Release/resources/ -name "*.d" -exec rm {} \;
 cp -r out/Release/resources %{buildroot}%{_crdir}
 
+# Strip NaCl IRT
+./native_client/toolchain/linux_x86_newlib/bin/x86_64-nacl-strip --strip-debug %{buildroot}%{_crdir}/nacl_irt_x86_64.nexe
+./native_client/toolchain/linux_x86_newlib/bin/i686-nacl-strip --strip-debug %{buildroot}%{_crdir}/nacl_irt_x86_32.nexe
+
 # desktop file
 mkdir -p %{buildroot}%{_datadir}/applications
 install -m 644 %{_src}/%{crname}.desktop %{buildroot}%{_datadir}/applications/
