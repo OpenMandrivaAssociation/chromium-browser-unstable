@@ -6,7 +6,7 @@
 %define patchver() ([ -f %{_src}/patch-%1-%2.diff.xz ] || exit 1; xz -dc %{_src}/patch-%1-%2.diff.xz|patch -p1);
 
 Name: chromium-browser-unstable
-Version: 21.0.1180.4
+Version: 21.0.1180.11
 Release: %mkrel 1
 Summary: A fast webkit-based web browser
 Group: Networking/WWW
@@ -21,6 +21,9 @@ Source1002: script-21.0.1171.0-21.0.1180.0.sh
 Source1003: patch-21.0.1180.0-21.0.1180.4.diff.xz
 Source1004: binary-21.0.1180.0-21.0.1180.4.tar.xz
 Source1005: script-21.0.1180.0-21.0.1180.4.sh
+Source1006: patch-21.0.1180.4-21.0.1180.11.diff.xz
+Source1007: binary-21.0.1180.4-21.0.1180.11.tar.xz
+Source1008: script-21.0.1180.4-21.0.1180.11.sh
 Patch0: chromium-21.0.1171.0-remove-inline.patch
 Provides: %{crname}
 Conflicts: chromium-browser-stable
@@ -62,6 +65,9 @@ sh -x %{_src}/script-21.0.1171.0-21.0.1180.0.sh
 %patchver 21.0.1180.0 21.0.1180.4
 tar xvf %{_src}/binary-21.0.1180.0-21.0.1180.4.tar.xz
 sh -x %{_src}/script-21.0.1180.0-21.0.1180.4.sh
+%patchver 21.0.1180.4 21.0.1180.11
+tar xvf %{_src}/binary-21.0.1180.4-21.0.1180.11.tar.xz
+sh -x %{_src}/script-21.0.1180.4-21.0.1180.11.sh
 
 echo "%{revision}" > build/LASTCHANGE.in
 
