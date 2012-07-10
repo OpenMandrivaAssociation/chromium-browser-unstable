@@ -72,7 +72,7 @@ sh -x %{_src}/script-21.0.1180.0-21.0.1180.4.sh
 tar xvf %{_src}/binary-21.0.1180.4-21.0.1180.11.tar.xz
 sh -x %{_src}/script-21.0.1180.4-21.0.1180.11.sh
 %patchver 21.0.1180.11 21.0.1180.15
-tar xvf %{_src}/binary-21.0.1180.11-21.0.1180.15.tar.xz
+tar xvf %{_src}/binary-21.0.1180.11-21.0.1180.15.tar.xz || 0
 sh -x %{_src}/script-21.0.1180.11-21.0.1180.15.sh
 
 echo "%{revision}" > build/LASTCHANGE.in
