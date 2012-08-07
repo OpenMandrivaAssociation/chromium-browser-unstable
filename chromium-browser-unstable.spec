@@ -1,12 +1,12 @@
-%define revision 144745
+%define revision 149058
 %define crname chromium-browser
 %define _crdir %{_libdir}/%{crname}
 %define _src %{_topdir}/SOURCES
-%define basever 21.0.1171.0
+%define basever 22.0.1221.1
 %define patchver() ([ -f %{_src}/patch-%1-%2.diff.xz ] || exit 1; xz -dc %{_src}/patch-%1-%2.diff.xz|patch -p1);
 
 Name: chromium-browser-unstable
-Version: 21.0.1180.15
+Version: 22.0.1221.1
 Release: %mkrel 1
 Summary: A fast webkit-based web browser
 Group: Networking/WWW
@@ -15,18 +15,7 @@ URL: http://www.chromium.org/getting-involved/dev-channel
 Source0: chromium-%{basever}.tar.xz
 Source1: chromium-wrapper
 Source2: chromium-browser.desktop
-Source1000: patch-21.0.1171.0-21.0.1180.0.diff.xz
-Source1001: binary-21.0.1171.0-21.0.1180.0.tar.xz
-Source1002: script-21.0.1171.0-21.0.1180.0.sh
-Source1003: patch-21.0.1180.0-21.0.1180.4.diff.xz
-Source1004: binary-21.0.1180.0-21.0.1180.4.tar.xz
-Source1005: script-21.0.1180.0-21.0.1180.4.sh
-Source1006: patch-21.0.1180.4-21.0.1180.11.diff.xz
-Source1007: binary-21.0.1180.4-21.0.1180.11.tar.xz
-Source1008: script-21.0.1180.4-21.0.1180.11.sh
-Source1009: patch-21.0.1180.11-21.0.1180.15.diff.xz
-Source1010: binary-21.0.1180.11-21.0.1180.15.tar.xz
-Source1011: script-21.0.1180.11-21.0.1180.15.sh
+#Source1000: patch-21.0.1171.0-21.0.1180.0.diff.xz
 Patch0: chromium-21.0.1171.0-remove-inline.patch
 Provides: %{crname}
 Conflicts: chromium-browser-stable
@@ -62,18 +51,9 @@ your profile before changing channels.
 %prep
 %setup -q -n chromium-%{basever}
 %patch0 -p1 -b .remove-inline
-%patchver 21.0.1171.0 21.0.1180.0
-tar xvf %{_src}/binary-21.0.1171.0-21.0.1180.0.tar.xz
-sh -x %{_src}/script-21.0.1171.0-21.0.1180.0.sh
-%patchver 21.0.1180.0 21.0.1180.4
-tar xvf %{_src}/binary-21.0.1180.0-21.0.1180.4.tar.xz
-sh -x %{_src}/script-21.0.1180.0-21.0.1180.4.sh
-%patchver 21.0.1180.4 21.0.1180.11
-tar xvf %{_src}/binary-21.0.1180.4-21.0.1180.11.tar.xz
-sh -x %{_src}/script-21.0.1180.4-21.0.1180.11.sh
-%patchver 21.0.1180.11 21.0.1180.15
-#tar xvf %{_src}/binary-21.0.1180.11-21.0.1180.15.tar.xz
-sh -x %{_src}/script-21.0.1180.11-21.0.1180.15.sh
+#%patchver 21.0.1171.0 21.0.1180.0
+#tar xvf %{_src}/binary-21.0.1171.0-21.0.1180.0.tar.xz
+#sh -x %{_src}/script-21.0.1171.0-21.0.1180.0.sh
 
 echo "%{revision}" > build/LASTCHANGE.in
 
@@ -81,6 +61,9 @@ echo "%{revision}" > build/LASTCHANGE.in
 FILE=chrome/common/chrome_version_info_posix.cc
 sed -i.orig -e 's/getenv("CHROME_VERSION_EXTRA")/"%{product_vendor} %{product_version}"/' $FILE
 cmp $FILE $FILE.orig && exit 1
+
+#mkdir -p remoting/jingle_glue/jingle/glue/
+#ln -s `pwd`/jingle/notifier/base/*.h remoting/jingle_glue/jingle/glue/
 
 %build
 export GYP_GENERATORS=make
@@ -96,12 +79,13 @@ build/gyp_chromium --depth=. \
 	-D use_system_zlib=1 \
 	-D use_system_bzip2=1 \
 	-D use_system_xdg_utils=1 \
-	-D use_system_yasm=1	\
+	-D use_system_yasm=1 \
 	-D use_system_libusb=1 \
 	-D use_system_libpng=1 \
 	-D use_system_libjpeg=1 \
 	-D use_system_libevent=1 \
 	-D use_system_flac=1 \
+	-D use_system_speex=1 \
 	-D use_system_vpx=0 \
 	-D use_system_icu=0 \
 %ifarch i586
@@ -132,8 +116,8 @@ install -m 755 out/Release/chrome %{buildroot}%{_crdir}/
 install -m 4755 out/Release/chrome_sandbox %{buildroot}%{_crdir}/chrome-sandbox
 install -m 644 out/Release/chrome.1 %{buildroot}%{_mandir}/man1/%{crname}.1
 install -m 644 out/Release/chrome.pak %{buildroot}%{_crdir}/
-install -m 644 out/Release/ui_resources_standard.pak %{buildroot}%{_crdir}/
-install -m 644 out/Release/theme_resources_standard.pak %{buildroot}%{_crdir}/
+install -m 644 out/Release/ui_resources_100_percent.pak %{buildroot}%{_crdir}/
+install -m 644 out/Release/theme_resources_100_percent.pak %{buildroot}%{_crdir}/
 install -m 755 out/Release/libffmpegsumo.so %{buildroot}%{_crdir}/
 %ifnarch armv7l
 install -m 755 out/Release/libppGoogleNaClPluginChrome.so %{buildroot}%{_crdir}/
@@ -142,8 +126,6 @@ install -m 755 out/Release/nacl_helper %{buildroot}%{_crdir}/
 install -m 644 out/Release/nacl_irt_*.nexe %{buildroot}%{_crdir}/
 %endif
 install -m 644 out/Release/locales/*.pak %{buildroot}%{_crdir}/locales/
-#install -m 755 out/Release/xdg-mime %{buildroot}%{_crdir}/
-#install -m 755 out/Release/xdg-settings %{buildroot}%{_crdir}/
 install -m 644 out/Release/resources.pak %{buildroot}%{_crdir}/
 install -m 644 chrome/browser/resources/default_apps/* %{buildroot}%{_crdir}/default_apps/
 ln -s %{_crdir}/chromium-wrapper %{buildroot}%{_bindir}/%{crname}
@@ -160,11 +142,17 @@ mkdir -p %{buildroot}%{_datadir}/applications
 install -m 644 %{_src}/%{crname}.desktop %{buildroot}%{_datadir}/applications/
 
 # icon
-for i in 16 22 24 26 32 48 64 128 256; do
+for i in 22 24 48 64 128 256; do
 	mkdir -p %{buildroot}%{_iconsdir}/hicolor/${i}x${i}/apps
 	install -m 644 chrome/app/theme/chromium/product_logo_$i.png \
 		%{buildroot}%{_iconsdir}/hicolor/${i}x${i}/apps/%{crname}.png
 done
+for i in 16 26 32; do
+	mkdir -p %{buildroot}%{_iconsdir}/hicolor/${i}x${i}/apps
+	install -m 644 chrome/app/theme/default_100_percent/chromium/product_logo_$i.png \
+		%{buildroot}%{_iconsdir}/hicolor/${i}x${i}/apps/%{crname}.png
+done
+
 
 %clean
 rm -rf %{buildroot}
@@ -186,12 +174,10 @@ rm -rf %{buildroot}
 %{_crdir}/locales
 %{_crdir}/resources.pak
 %{_crdir}/resources
-%{_crdir}/ui_resources_standard.pak
-%{_crdir}/theme_resources_standard.pak
+%{_crdir}/ui_resources_100_percent.pak
+%{_crdir}/theme_resources_100_percent.pak
 %{_crdir}/themes
 %{_crdir}/default_apps
-#%{_crdir}/xdg-mime
-#%{_crdir}/xdg-settings
 %{_mandir}/man1/%{crname}*
 %{_datadir}/applications/*.desktop
 %{_iconsdir}/hicolor/*/apps/%{crname}.png
