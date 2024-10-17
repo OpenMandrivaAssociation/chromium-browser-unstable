@@ -11,7 +11,7 @@ Release: %mkrel 1
 Summary: A fast webkit-based web browser
 Group: Networking/WWW
 License: BSD, LGPL
-URL: http://www.chromium.org/getting-involved/dev-channel
+URL: https://www.chromium.org/getting-involved/dev-channel
 Source0: chromium-%{basever}.tar.xz
 Source1: chromium-wrapper
 Source2: chromium-browser.desktop
