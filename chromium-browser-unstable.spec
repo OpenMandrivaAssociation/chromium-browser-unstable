@@ -32,6 +32,7 @@ Provides: %{crname}
 Conflicts: chromium-browser-stable
 Conflicts: chromium-browser-beta
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot
+BuildRequires:	make
 BuildRequires: bison, flex, gtk2-devel, atk-devel, expat-devel, gperf
 BuildRequires: nspr-devel, nss-devel, libalsa-devel
 BuildRequires: glib2-devel, bzip2-devel, zlib-devel, libpng-devel
