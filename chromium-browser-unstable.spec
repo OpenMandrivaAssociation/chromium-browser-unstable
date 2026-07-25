@@ -7,7 +7,7 @@
 
 Name: chromium-browser-unstable
 Version: 21.0.1180.15
-Release: %mkrel 1
+Release: 2
 Summary: A fast webkit-based web browser
 Group: Networking/WWW
 License: BSD, LGPL
